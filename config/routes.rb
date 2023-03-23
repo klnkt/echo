@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root to: redirect('/docs')
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  mount Rswag::Ui::Engine => '/docs'
+  mount Rswag::Api::Engine => '/docs'
+
+  mount API => '/'
 end
