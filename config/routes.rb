@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  root to: redirect('/docs')
+  mount Rswag::Api::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => '/api-docs'
 
-  mount Rswag::Ui::Engine => '/docs'
-  mount Rswag::Api::Engine => '/docs'
+  root to: redirect('/api-docs')
 
-  mount API => '/'
+  mount API::Root => '/'
 end
