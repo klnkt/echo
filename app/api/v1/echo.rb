@@ -2,25 +2,31 @@
 
 module V1
   class Echo < Grape::API
-    helpers do
-      def endpoints
-        Endpoint.all
-      end
+    # helpers do
+    #   def endpoints
+    #     Endpoint.all
+    #   end
 
-      def return_response(endpoint)
-        status endpoint.response_code
-        endpoint.headers.keys.each do |key|
-          header key, headers[:key]
-        end
+    #   def return_response(endpoint)
+    #     status endpoint.response_code
+    #     endpoint.headers.keys.each do |key|
+    #       header key, headers[:key]
+    #     end
 
-        endpoint.body
-      end
-    end
+    #     endpoint.body
+    #   end
+    # end
 
-    endpoints.each do |endpoint|
-      resources endpoint.path do
-        send(endpoint.verb) { return_response(endpoint) }
-      end
-    end
+    # Endpoint.each do |endpoint|
+    #     # send(endpoint.verb) { |endpoint| return_response(endpoint) }
+    #     send(endpoint.verb.to_sym, endpoint.path) do
+    #       'baz'
+    #     end
+    #   end
+    # end
+
+    # # resource(Endpoint.first.path) do
+    # #   send(Endpoint.first.verb) { 'b1az' }
+    # # end
   end
 end

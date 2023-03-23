@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
-require 'grape-swagger'
+require 'grape'
 
-class API < Grape::API
+module API
+  class Root < Grape::API
     format :json
-    prefix :api
 
     mount V1::Endpoints
-    mount V1::Echo
 
-    add_swagger_documentation
+    Endpoint.all.each do |endpoint|
+      send(endpoint.verb.downcase, endpoint.path) do
+        status endpoint.response_code
+        endpoint.headers.keys.each do |key|
+          header key, headers[:key]
+        end
+
+        endpoint.body
+      end
+    end
+  end
 end
