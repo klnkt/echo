@@ -2,6 +2,7 @@
 
 module V1
   class Endpoints < Grape::API
+    include ErrorHandlingConcern
     resource :endpoints do
       desc 'List existing endpoint',
         success: { message: 'Success' },
