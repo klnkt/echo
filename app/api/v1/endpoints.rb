@@ -2,12 +2,12 @@
 
 module V1
   class Endpoints < Grape::API
-    resources :endpoints do
+    resource :endpoints do
       desc 'List existing endpoint',
         success: { message: 'Success' },
         failure: { code: 422, message: 'Invalid request' }
       get do
-        Endpoints.all.as_json
+        Endpoint.all.as_json
       end
 
       route_param :id do
