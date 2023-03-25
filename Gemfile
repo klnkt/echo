@@ -21,7 +21,6 @@ gem "bootsnap", require: false
 ## JSON API
 gem "grape", "~> 1.7"
 gem "grape-swagger", "~> 1.6"
-gem "rswag", "~> 2.8"
 
 group :development do
   gem "rubocop", "~> 1.48"
