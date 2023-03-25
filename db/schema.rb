@@ -15,8 +15,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_213656) do
     t.string "verb"
     t.string "path"
     t.integer "response_code"
-    t.binary "headers"
-    t.binary "body"
+    t.json "headers"
+    t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

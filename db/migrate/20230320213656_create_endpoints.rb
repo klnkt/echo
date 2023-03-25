@@ -4,8 +4,8 @@ class CreateEndpoints < ActiveRecord::Migration[7.0]
       t.string :verb
       t.string :path
       t.integer :response_code
-      t.blob :headers
-      t.blob :body
+      t.json :headers
+      t.string :body
 
       t.timestamps
     end
