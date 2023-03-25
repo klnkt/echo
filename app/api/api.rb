@@ -3,19 +3,20 @@
 require 'grape'
 
 module API
+  # :no-doc
   class Root < Grape::API
     format :json
 
     mount V1::Endpoints
 
-    Endpoint.all.each do |endpoint|
-      send(endpoint.verb.downcase, endpoint.path) do
-        status endpoint.response_code
-        endpoint.headers.keys.each do |key|
-          header key, headers[:key]
-        end
+    Endpoint::VERBS.each do |verb|
+      send(verb, '*wildcard') do
+        response = WildcardService.new(params[:wildcard], verb).call
+        error!('Not Found', 404) unless response
 
-        endpoint.body
+        status(response.code)
+        response.headers.each { |k, v| header(k, v) }
+        response.body
       end
     end
   end
