@@ -7,7 +7,7 @@ class Endpoint < ApplicationRecord
   validates :verb, inclusion: { in: VERBS }
   validates :verb, :path, :response_code, presence: true
   validates :path, uniqueness: { scope: [:verb] }
-  validates :response_code, numericality: { greater_than: 199 }
+  validates :response_code, numericality: { greater_than: 199, less_than: 600 }
   validate :path, :validate_path
 
   private

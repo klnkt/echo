@@ -15,7 +15,7 @@ module API
         error!("Endpoint with path /#{params[:wildcard]} does not exist", 404) unless response
 
         status(response.code)
-        response.headers.each { |k, v| header(k, v) }
+        response.headers&.each_key { |key| header(key, response.headers[key]) }
         response.body
       end
     end
