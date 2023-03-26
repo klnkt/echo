@@ -41,7 +41,7 @@ describe WildcardService do
         expect(subject.headers).to eq endpoint.reload.headers
       end
 
-      context 'return body as correct type' do
+      context 'return correct body' do
         context 'when string' do
           let(:body) { 'baz' }
 
@@ -51,10 +51,10 @@ describe WildcardService do
         end
 
         context 'when hash' do
-          let(:body) { { 'baz' => 'qux' } }
+          let(:body) { JSON.generate({ 'baz' => 'qux' }) }
 
           it 'returns hash' do
-            expect(subject.body).to eq endpoint.reload.body
+            expect(subject.body).to eq({ 'baz' => 'qux' })
           end
         end
       end
