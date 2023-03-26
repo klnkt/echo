@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_213656) do
     t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_endpoints_on_path"
+    t.index ["verb"], name: "index_endpoints_on_verb"
   end
 
 end
