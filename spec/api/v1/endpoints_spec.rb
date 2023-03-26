@@ -141,11 +141,8 @@ describe V1::Endpoints, type: :request do
     end
 
     it 'returns success' do
-      deleted_endpoint_id = endpoint.id
-
       request
-      expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body)).to eq({ 'id' => deleted_endpoint_id.to_s })
+      expect(response).to have_http_status(204)
     end
 
     context 'when endpoint not found' do

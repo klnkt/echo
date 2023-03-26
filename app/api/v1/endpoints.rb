@@ -56,7 +56,7 @@ module V1
         desc 'Delete an endpoint'
         delete do
           Endpoint.find(params[:id]).destroy!
-          { id: params[:id] }
+          status(204)
         end
       end
     end
