@@ -27,13 +27,14 @@ group :development do
 end
 
 group :development, :test do
+  gem "rspec-rails", "~> 6.0"
+  gem "factory_bot_rails", "~> 6.2"
   gem "pry", "~> 0.14.2"
   gem "pry-byebug", "~> 3.10"
 end
 
 group :test do
   gem "rspec", "~> 3.12"
-  gem "rspec-rails", "~> 6.0"
   gem "database_cleaner", "~> 2.0"
   gem "shoulda-matchers", "~> 5.3"
 end
