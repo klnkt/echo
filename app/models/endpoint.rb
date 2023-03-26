@@ -2,7 +2,7 @@
 
 # Model for storing endpoints created by users
 class Endpoint < ApplicationRecord
-  VERBS = %w[get post patch delete].freeze
+  VERBS = %w[get post put patch delete head options].freeze
 
   validates :verb, inclusion: { in: VERBS }
   validates :verb, :path, :response_code, presence: true

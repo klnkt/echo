@@ -5,6 +5,7 @@ require 'grape'
 module API
   # :no-doc
   class Root < Grape::API
+    do_not_route_head!
     format :json
 
     mount V1::Endpoints
