@@ -48,7 +48,6 @@ Accepts parameters:
     * only codes in the range 200 - 599 are accepted
   * `headers` (optional) - a key-value structure where keys represent HTTP header
   names and values hold actual values of these headers returned by Endpoint
-    * invalid headers will be ignored
   * `body` (optional) - a string representation of response body returned by
   Endpoint.
     * If valid JSON string is provided, mock endpoint will return a JSON instead of string.
