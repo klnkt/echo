@@ -2,16 +2,15 @@
 
 require 'rails_helper'
 
-RSpec.describe Endpoint do
+describe Endpoint do
   describe 'validations' do
-    subject { Endpoint.new }
-
     it { is_expected.to validate_presence_of(:verb) }
     it { is_expected.to validate_presence_of(:path) }
     it { is_expected.to validate_presence_of(:response_code) }
     it { is_expected.to validate_inclusion_of(:verb).in_array(Endpoint::VERBS) }
     it { is_expected.to validate_uniqueness_of(:path).scoped_to(:verb) }
     it { is_expected.to validate_numericality_of(:response_code).is_greater_than(199) }
+    it { is_expected.to validate_numericality_of(:response_code).is_less_than(600) }
 
     context 'valid path' do
       shared_examples_for 'path is invalid' do |path|

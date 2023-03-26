@@ -1,37 +1,62 @@
 # frozen_string_literal: true
 
 module V1
+  # CRUD API for endpoints
   class Endpoints < Grape::API
     include ErrorHandlingConcern
+
+    helpers do
+      def modified_params
+        params[:response_code] = params[:response][:code]
+        params[:headers] = params[:response][:headers]
+        params[:body] = params[:response][:body]
+        params.delete(:response)
+
+        params
+      end
+
+      params :endpoint_params do
+        requires :verb, type: String, values: Endpoint::VERBS, desc: 'HTTP method name'
+        requires :path, type: String, desc: 'path part of URL'
+        requires :response, type: Hash do
+          requires :code, type: Integer, desc: 'HTTP response code or custom code. Must be greater than 199'
+          optional :headers, type: Hash
+          optional :body, type: String, desc: 'A string or a valid JSON'
+        end
+      end
+    end
+
     resource :endpoints do
-      desc 'List existing endpoint',
-        success: { message: 'Success' },
-        failure: { code: 422, message: 'Invalid request' }
+      desc 'List existing endpoints'
       get do
         Endpoint.all.as_json
       end
 
-      route_param :id do
-        desc 'Create an endpoint'
-        params do
-          requires :verb, type: String, values: Endpoint::VERBS, desc: 'HTTP method name'
-          requires :path, type: String, desc: 'path part of URL' # add coerce
-          requires :response, type: Hash do
-            requires :code, type: Integer # coerce to be > 100 ?
-            optional :headers, type: Hash do
-              requires :header, type: String
-              requires :value, type: String
-            end
-            optional :body, type: String
-          end
-        end
-        post do
-          endpoint = Endpoint.new(params)
-          if endpoint.valid?
-            return endpoint if endpoint.save
-          end
+      desc 'Create an endpoint'
+      params do
+        use :endpoint_params
+      end
+      post do
+        endpoint = Endpoint.new(modified_params)
+        endpoint.save!
+        endpoint
+      end
 
-          error!(422, 'Invalid request') # add more info here
+      route_param :id do
+        desc 'Update an endpoint'
+        params do
+          use :endpoint_params
+        end
+        patch do
+          endpoint = Endpoint.find(params[:id])
+          endpoint.update!(modified_params)
+          endpoint.reload
+        end
+
+        desc 'Delete an endpoint'
+        delete do
+          Endpoint.find(params[:id]).destroy!
+          { id: params[:id] }
         end
       end
     end

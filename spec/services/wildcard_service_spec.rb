@@ -16,13 +16,12 @@ describe WildcardService do
     context 'endpoint exists' do
       let(:body) { 'baz' }
       let(:endpoint) do
-        Endpoint.new(
+        create :endpoint,
           verb:,
           path: "/#{path}",
           response_code: 201,
           headers: { 'Cookie' => '1234' },
           body:
-        )
       end
 
       before do
