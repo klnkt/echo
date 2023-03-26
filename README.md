@@ -45,7 +45,7 @@ Accepts parameters:
 * `path` (required) - a string value of the path part of URL, should start with /
 * `response` (required) - an object with following attributes:
   * `code` (required) - an integer status code returned by Endpoint
-    * only codes in the range 101 - 599 are accepted
+    * only codes in the range 200 - 599 are accepted
   * `headers` (optional) - a key-value structure where keys represent HTTP header
   names and values hold actual values of these headers returned by Endpoint
     * invalid headers will be ignored
