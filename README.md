@@ -1,6 +1,6 @@
 # README
 
-Echo is a n API only app that allows users create mock endpoints and access them via HTTP.
+Echo is an API only app that allows users to create mock endpoints and access them via HTTP.
 
 ## Setup
 
@@ -38,17 +38,11 @@ curl --request GET \
   --url http://localhost:3000/endpoints
 ```
 ### `POST /endpoints` 
-Creates a mock endpoint. Endpoints must have a unique verb + path combination.
-
-If endpoint does not exist, returns `404 Not Found error`.
+Creates a mock endpoint. Endpoints must have a unique verb + path combination. Returns created endpoint.
 
 Accepts parameters:
-* `verb` (required) - a string value that may take one of HTTP method name. Available verbs are:
-  * get
-  * post
-  * patch
-  * delete
-* `path` (required) - a string value of the path part of URL, should start from /
+* `verb` (required) - a string value that may take one of HTTP method name
+* `path` (required) - a string value of the path part of URL, should start with /
 * `response` (required) - an object with following attributes:
   * `code` (required) - an integer status code returned by Endpoint
     * only codes in the range 101 - 599 are accepted
@@ -57,35 +51,47 @@ Accepts parameters:
     * invalid headers will be ignored
   * `body` (optional) - a string representation of response body returned by
   Endpoint.
-    * If valid JSON string is provided, mock endpoint will return a JSON isneatfd of string.
+    * If valid JSON string is provided, mock endpoint will return a JSON instead of string.
 ```bash
 curl --request POST \
   --url http://localhost:3000/endpoints/ \
-  --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data verb=delete \
-  --data path=/foo/bar \
-  --data 'response[code]=599' \
-  --data 'response[body]=baz' \
-  --data 'response[headers][Cookie]=1234'
+  --header 'Content-Type: application/json' \
+  --data '{
+	"verb": "delete",
+	"path": "/foo/bar",
+	"response": {
+		"code": 599,
+		"headers": {
+			"Cookie": "1234"
+		},
+		"body": "baz"
+	}
+}'
 ```
 
 ### `PATCH /endpoints/:id`
-Updates a mock endpoint. Accepted parameters are the same as in POST request.
+Updates a mock endpoint. Accepted parameters are the same as in POST request. Returns updated endpoint.
 
 If endpoint does not exist, returns `404 Not Found error`.
 
 ```bash
 curl --request PATCH \
   --url http://localhost:3000/endpoints/1 \
-  --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data verb=delete \
-  --data path=/foo/bar/baz \
-  --data 'response[code]=453' \
-  --data 'response[body]={"message": "Hello, world"}' \
-  --data 'response[headers][Cookie]=123'
+  --header 'Content-Type: application/json' \
+  --data '{
+	"verb": "post",
+	"path": "/foo/bar",
+	"response": {
+		"code": 599,
+		"headers": {
+			"Cookie": "1234"
+		},
+		"body": "baz"
+	}
+}'
 ```
 ### `DELETE /endpoints/:id`
-Deletes a mock endpoint and returns ID of deleted endpioint.
+Deletes a mock endpoint.
 
 If endpoint does not exist, returns `404 Not Found error`.
 
@@ -94,17 +100,23 @@ curl --request DELETE \
   --url http://localhost:3000/endpoints/1
 ```
 
-### Calling mock endpoiints
-After creating a mock end point with following params:
+### Calling mock endpoints
+After creating a mock endpoint with following params:
 ```bash
 curl --request POST \
   --url http://localhost:3000/endpoints/ \
-  --header 'Content-Type: application/x-www-form-urlencoded' \
-  --data verb=delete \
-  --data path=/foo/bar \
-  --data 'response[code]=599' \
-  --data 'response[body]=baz' \
-  --data 'response[headers][Cookie]=1234'
+  --header 'Content-Type: application/json' \
+  --data '{
+	"verb": "delete",
+	"path": "/foo/bar",
+	"response": {
+		"code": 599,
+		"headers": {
+			"Cookie": "1234"
+		},
+		"body": "baz"
+	}
+}'
 ```
 
 It an be called via:
